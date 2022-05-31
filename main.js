@@ -7,7 +7,7 @@ async function main() {
     const word = pickAWord();
     let usedLetters = [];
     let hiddenWord = '';
-    let attempts = 10;
+    let attempts = 1;
 
     console.log("===== STARTING HANGMAN GAME =====");
     await sleep(1500);
@@ -40,8 +40,26 @@ async function main() {
         if (attempts > 0) {
             if (attempts == 1) console.log("> ⚠️  YOU HAVE ONE MORE ATTEMPT, be careful!");
             if (!hiddenWord.includes('_')) {
-                playerInput.close();
-                return console.log(`\n🎉CONGRATULATIONS, YOU WIN! 🥳`);
+                console.log(`\n🎉CONGRATULATIONS, YOU WIN! 🥳`);
+
+                console.log(`====================`);
+                console.log(`\n🚀 WHAT'S NEXT ?? 🔰`);
+                console.log(`1️⃣  press "1" to play again the game, if you dare!`);
+                console.log(`0️⃣  press "0" to EXIT!`);
+
+                playerInput.question("> ", (option) => {
+                    console.log(option);
+                    if (option === "1") {
+                        playerInput.close();
+                        console.clear();
+                        return main();
+                    }
+                    if (option === "0") {
+                        console.log("*** 😔 BYE BYE 👋");
+                        playerInput.close();
+                        process.exit(0);
+                    }
+                });
             }
             playerInput.question("\nEnter a letter: \n> ", (letter) => {
                 if (!letter || typeof letter !== 'string') {
@@ -92,7 +110,6 @@ async function main() {
 
     playTheGame(attempts);
 };
-
 
 function pickAWord() {
     try {
