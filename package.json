@@ -1,11 +1,11 @@
 {
   "name": "hangman-game",
   "version": "1.0.0",
-  "description": "A vesion of the classic letter guessing game called HANGMAN.",
+  "description": "A version of the classic letter guessing game called HANGMAN.",
   "main": "main.js",
   "scripts": {
     "start": "node main.js"
   },
   "author": "lemaxdev",
-  "license": "ISC"
+  "license": "MIT"
 }
