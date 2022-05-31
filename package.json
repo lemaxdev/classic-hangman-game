@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A vesion of the classic letter guessing game called HANGMAN.",
   "main": "main.js",
-  "type": "module",
   "scripts": {
     "start": "node main.js"
   },
