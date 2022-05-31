@@ -7,7 +7,7 @@ async function main() {
     const word = pickAWord();
     let usedLetters = [];
     let hiddenWord = '';
-    let attempts = 1;
+    let attempts = 5;
 
     console.log("===== STARTING HANGMAN GAME =====");
     await sleep(1500);
@@ -41,27 +41,14 @@ async function main() {
             if (attempts == 1) console.log("> ⚠️  YOU HAVE ONE MORE ATTEMPT, be careful!");
             if (!hiddenWord.includes('_')) {
                 console.log(`\n🎉CONGRATULATIONS, YOU WIN! 🥳`);
+                playerInput.close();
 
-                console.log(`====================`);
-                console.log(`\n🚀 WHAT'S NEXT ?? 🔰`);
-                console.log(`1️⃣  press "1" to play again the game, if you dare!`);
-                console.log(`0️⃣  press "0" to EXIT!`);
-
-                playerInput.question("> ", (option) => {
-                    console.log(option);
-                    if (option === "1") {
-                        playerInput.close();
-                        console.clear();
-                        return main();
-                    }
-                    if (option === "0") {
-                        console.log("*** 😔 BYE BYE 👋");
-                        playerInput.close();
-                        process.exit(0);
-                    }
-                });
+                return checkToPlayAgain();
             }
             playerInput.question("\nEnter a letter: \n> ", (letter) => {
+                console.clear();
+                console.log(`> ${letter}`);
+
                 if (!letter || typeof letter !== 'string') {
                     console.log(`\n❌ Please enter a valid LETTER ...`);
                     playerInput.close();
@@ -105,11 +92,38 @@ async function main() {
             console.log(`✅\t${word.toUpperCase()}`);
             console.log(`⚫☢️  GAME OVER, YOU DIED ! ⚰️ 🚑`);
             playerInput.close();
+
+            return checkToPlayAgain();
         }
     }
 
     playTheGame(attempts);
 };
+
+function checkToPlayAgain() {
+    const input = require('readline').createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    console.log(`====================`);
+    console.log(`\n🚀 WHAT'S NEXT ?? 🔰`);
+    console.log(`1️⃣  press "1" to play again the game, if you dare!`);
+    console.log(`0️⃣  press "0" to EXIT!`);
+
+    input.question("> ", (option) => {
+        if (option === "1") {
+            input.close();
+            console.clear();
+            return main();
+        }
+        if (option === "0") {
+            console.log("*** 😔 BYE BYE 👋");
+            input.close();
+            process.exit(0);
+        }
+    });
+}
 
 function pickAWord() {
     try {
