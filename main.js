@@ -5,6 +5,7 @@ const VOWELS = ['A', 'E', 'I', 'O', 'U'];
 
 async function main() {
     const word = pickAWord();
+    let usedLetters = [];
     let hiddenWord = '';
     let attempts = 10;
 
@@ -23,6 +24,7 @@ async function main() {
             hiddenWord += '_';
         }
     };
+    usedLetters = [...VOWELS];
 
     console.log(`> ✳️  The word is:\n🔰\t${hiddenWord}\n`);
     console.log(`> ✳️  You have ${attempts} attempts.`);
@@ -42,7 +44,22 @@ async function main() {
                 return console.log(`\n🎉CONGRATULATIONS, YOU WIN! 🥳`);
             }
             playerInput.question("\nEnter a letter: \n> ", (letter) => {
+                if (!letter || typeof letter !== 'string') {
+                    console.log(`\n❌ Please enter a valid LETTER ...`);
+                    playerInput.close();
+
+                    return playTheGame(attempts);
+                }
                 letter = letter.toUpperCase();
+
+                if (hiddenWord.includes(letter) || usedLetters.includes(letter)) {
+                    console.log(`> ⚠️  Letter "${letter}" is revealed OR you already entered it!`);
+                    console.log(`🔰\t${hiddenWord}`);
+                    playerInput.close();
+
+                    return playTheGame(attempts);
+                }
+                usedLetters.push(letter);
 
                 if (checkLetter(letter, word)) {
                     console.log(`\n✅ VALID LETTER! ATTEMPTS: ${attempts} / 10`);
