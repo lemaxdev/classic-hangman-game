@@ -118,10 +118,16 @@ function checkToPlayAgain() {
             return main();
         }
         if (option === "0") {
-            console.log("*** 😔 BYE BYE 👋");
+            console.clear();
+            console.log("*** 😔 BYE BYE 👋 ***");
             input.close();
             process.exit(0);
         }
+
+        console.clear();
+        console.log(`❌ INVALID OPTION! Please select an option from the menu below.`);
+        input.close();
+        return checkToPlayAgain();
     });
 }
 
